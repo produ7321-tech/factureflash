@@ -1,6 +1,5 @@
-import { defineConfig } from 'vite'
-import { tanstackStart } from '@tanstack/react-start/plugin/vite'
-import viteReact from '@vitejs/plugin-react'
+import { defineConfig } from 'vinxi'
+import { tanstackStart } from '@tanstack/react-start/vite'
 import tailwindcss from '@tailwindcss/vite'
 import path from 'path'
 
@@ -13,7 +12,6 @@ export default defineConfig({
         failOnError: false,
       },
     }),
-    viteReact(),
   ],
   resolve: {
     alias: {

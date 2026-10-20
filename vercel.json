@@ -1,0 +1,5 @@
+{
+  "framework": "tanstack-start",
+  "buildCommand": "vinxi build",
+  "installCommand": "npm install --legacy-peer-deps"
+}

@@ -1,5 +1,5 @@
 import { defineConfig } from 'vinxi'
-import { tanstackStart } from '@tanstack/react-start/vite'
+import { tanstackStart } from '@tanstack/react-start'
 import tailwindcss from '@tailwindcss/vite'
 import path from 'path'
 

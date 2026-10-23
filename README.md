@@ -1,21 +1,16 @@
-# Enhanced Vite React TypeScript Template
+# FactureFlash
 
-Vite + React + TypeScript + Tailwind CSS template with Shadcn/ui pre-configured.
+Application de facturation pour petites entreprises, développée avec React, TanStack Start, Vite et Supabase Auth/PostgreSQL.
 
-## Features
+## Offre Pro
 
-- **Linting**: TypeScript (`tsc --noEmit`), ESLint, and Stylelint
-- **Shadcn/ui**: Pre-configured with all Shadcn components
-- **Modern Stack**: Vite + React + TypeScript + Tailwind CSS
+Le forfait Pro coûte **1 000 F CFA par mois**. Le checkout utilise FedaPay; la confirmation du paiement est vérifiée côté serveur avant l’activation du plan dans PostgreSQL.
 
-## Available Scripts
+## Développement local
 
-```bash
-# Run all linting (types + JS + CSS)
-npm run lint
+1. Copier `.env.example` vers `.env` et renseigner les clés de Supabase Auth et FedaPay ainsi que l’URL PostgreSQL Supabase dans `DATABASE_URL`.
+2. Appliquer [`supabase/migrations/20261023140000_initial_schema.sql`](supabase/migrations/20261023140000_initial_schema.sql) au projet Supabase. Il crée `businesses`, `business_profiles`, `clients`, `invoices`, `documents`, `quotes`, `invoice_items`, `subscriptions` et `invoice_sequences`; les comptes sont gérés par `auth.users` de Supabase. Le fichier [`factureflash.sql`](factureflash.sql) correspond à l’ancien schéma MySQL WAMP.
+3. Installer les dépendances avec `npm install`.
+4. Lancer `npm run dev` (Vite écoute sur le port 3004).
 
-# Individual linting
-npm run lint:types # TypeScript (tsc --noEmit)
-npm run lint:js    # ESLint
-npm run lint:css   # Stylelint
-```
+Les secrets FedaPay et `DATABASE_URL` restent côté serveur et ne doivent jamais utiliser un préfixe `VITE_`.

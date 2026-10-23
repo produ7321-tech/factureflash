@@ -1,0 +1,1 @@
+This project uses Tailwind CSS v4. The CSS directives `@plugin`, `@custom-variant`, and `@theme` in `src/index.css` are valid Tailwind syntax; generic CSS language-service "Unknown at rule" diagnostics are false positives. Keep them unchanged for the Vite Tailwind plugin.

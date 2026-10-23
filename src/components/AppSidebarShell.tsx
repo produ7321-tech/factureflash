@@ -21,11 +21,9 @@ import {
 } from '@/components/ui/tooltip'
 import {
   LayoutDashboard,
-  LogOut,
   PanelLeft,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { blink } from '@/blink/client'
 
 const SIDEBAR_KEY = 'sidebar_collapsed'
 
@@ -178,34 +176,7 @@ export function AppSidebarShell() {
             </button>
           )}
 
-          {/* Sign out */}
-          {collapsed ? (
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="sm"
-                  className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground"
-                  onClick={() => void blink.auth.logout()}
-                >
-                  <LogOut className="h-4 w-4 shrink-0" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent side="right">Se déconnecter</TooltipContent>
-            </Tooltip>
-          ) : (
-            <Button
-              type="button"
-              variant="ghost"
-              size="sm"
-              className="w-full justify-start px-2 gap-2 text-muted-foreground hover:text-foreground"
-              onClick={() => void blink.auth.logout()}
-            >
-              <LogOut className="h-4 w-4 shrink-0" />
-              Se déconnecter
-            </Button>
-          )}
+          {!collapsed && <p className="px-2 py-1 text-[10px] text-muted-foreground">Données enregistrées sur cet appareil</p>}
         </div>
       </div>
     </TooltipProvider>

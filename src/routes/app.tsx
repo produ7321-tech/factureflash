@@ -1,5 +1,6 @@
 import { Outlet, createFileRoute } from '@tanstack/react-router'
 import { SharedAppLayout } from '@/layouts/shared-app-layout'
+import { APP_NAME, SITE_DESCRIPTION, SITE_TITLE } from '@/lib/site'
 
 /**
  * App shell layout — mounted at the REAL `/app` segment (not a pathless `_app`).
@@ -21,21 +22,24 @@ import { SharedAppLayout } from '@/layouts/shared-app-layout'
  * LANDING / MARKETING / CONTENT / GAME? You don't need this shell: delete
  * `src/routes/app.tsx` and the `src/routes/app/` folder. Deleting is always safe.
  *
- * Auth-gate the whole shell by wrapping <Outlet /> in your auth check here — one
- * place, not per page. Browser-only state (blink.auth, localStorage, window) must
- * sit inside <BlinkClientBoundary> (wrap the whole shell if the entire app is
- * browser-only). Do NOT use the route's `ssr: false` — a client-only route in this
- * TanStack Start template hits Start's server-context `node:async_hooks` path (a
- * throwing browser stub) and ships a BLANK preview ("AsyncLocalStorage is not a
- * constructor").
+ * The dashboard uses a browser-local storage adapter; it does not require an
+ * account or a third-party SDK.
  */
 export const Route = createFileRoute('/app')({
   component: AppLayout,
+  head: () => ({
+    meta: [
+      { title: SITE_TITLE },
+      { name: 'description', content: SITE_DESCRIPTION },
+      { property: 'og:title', content: SITE_TITLE },
+      { property: 'og:description', content: SITE_DESCRIPTION },
+    ],
+  }),
 })
 
 function AppLayout() {
   return (
-    <SharedAppLayout appName="FactureFlash 229">
+    <SharedAppLayout appName={APP_NAME}>
       <Outlet />
     </SharedAppLayout>
   )

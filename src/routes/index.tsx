@@ -22,15 +22,9 @@ import { createFileRoute, redirect } from '@tanstack/react-router'
  * - Routes are files under `src/routes/` that `export const Route =
  *   createFileRoute('/path')({ component })`. NEVER `export default` a route.
  *   Navigate with `Link` from `@tanstack/react-router` (there is no `NavLink`).
- * - Reading Blink auth/SDK state (`blink.auth`), `localStorage`, or `window` at
- *   render CRASHES SSR / hydration-mismatches and ships a blank first page. Wrap
- *   that subtree in `<BlinkClientBoundary fallback={…}>` (from
- *   `@/components/BlinkClientBoundary`) — wrap the whole tree if the entire page
- *   needs the browser. Keep static content outside the boundary. Do NOT use the
- *   route's `ssr: false`: a client-only route in this template hits Start's
- *   server-context `node:async_hooks` path (a throwing browser stub) and ships a
- *   BLANK preview ("AsyncLocalStorage is not a constructor").
+ * - Storage access must stay in browser-only actions/effects and go through the
+ *   SSR-safe adapter at `@/lib/storage`.
  */
 export const Route = createFileRoute('/')({
-  beforeLoad: () => { throw redirect({ to: '/app' }) },
+  beforeLoad: () => { throw redirect({ to: '/landing' }) },
 })

@@ -8,6 +8,8 @@ export type BusinessProfilesRow = {
   whatsapp: string
   address: string
   brandColor: string
+  rccm?: string
+  ifu?: string
   logoUrl: string
   createdAt: string
   updatedAt: string
@@ -41,4 +43,7 @@ export type DocumentsRow = {
   notes: string
   dueDate: string
   createdAt: string
+  templateId?: 'minimal' | 'benin' | 'premium-dark' | 'brand' | 'thermal'
+  template?: 'classic' | 'modern' | 'minimal' | 'elegant'
+  vatEnabled?: boolean
 }

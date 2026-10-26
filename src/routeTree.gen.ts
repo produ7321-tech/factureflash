@@ -9,44 +9,24 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as PricingRouteImport } from './routes/pricing'
-import { Route as PaymentSuccessRouteImport } from './routes/payment-success'
-import { Route as PaiementRouteImport } from './routes/paiement'
-import { Route as LoginRouteImport } from './routes/login'
-import { Route as LandingRouteImport } from './routes/landing'
-import { Route as AppRouteImport } from './routes/app'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AppRouteImport } from './routes/app'
+import { Route as LandingRouteImport } from './routes/landing'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as PaiementRouteImport } from './routes/paiement'
+import { Route as PaymentSuccessRouteImport } from './routes/payment-success'
+import { Route as PricingRouteImport } from './routes/pricing'
+import { Route as ApiClientsRouteImport } from './routes/api/clients'
+import { Route as ApiInvoicesRouteImport } from './routes/api/invoices'
+import { Route as ApiQuotaRouteImport } from './routes/api/quota'
+import { Route as ApiStorageRouteImport } from './routes/api/storage'
 import { Route as AppIndexRouteImport } from './routes/app/index'
 import { Route as AuthCallbackRouteImport } from './routes/auth/callback'
-import { Route as ApiStorageRouteImport } from './routes/api/storage'
-import { Route as ApiQuotaRouteImport } from './routes/api/quota'
-import { Route as ApiInvoicesRouteImport } from './routes/api/invoices'
-import { Route as ApiClientsRouteImport } from './routes/api/clients'
 import { Route as ApiPaymentsVerifyRouteImport } from './routes/api/payments/verify'
 
-const PricingRoute = PricingRouteImport.update({
-  id: '/pricing',
-  path: '/pricing',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PaymentSuccessRoute = PaymentSuccessRouteImport.update({
-  id: '/payment-success',
-  path: '/payment-success',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PaiementRoute = PaiementRouteImport.update({
-  id: '/paiement',
-  path: '/paiement',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LoginRoute = LoginRouteImport.update({
-  id: '/login',
-  path: '/login',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LandingRoute = LandingRouteImport.update({
-  id: '/landing',
-  path: '/landing',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AppRoute = AppRouteImport.update({
@@ -54,9 +34,49 @@ const AppRoute = AppRouteImport.update({
   path: '/app',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const LandingRoute = LandingRouteImport.update({
+  id: '/landing',
+  path: '/landing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PaiementRoute = PaiementRouteImport.update({
+  id: '/paiement',
+  path: '/paiement',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PaymentSuccessRoute = PaymentSuccessRouteImport.update({
+  id: '/payment-success',
+  path: '/payment-success',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PricingRoute = PricingRouteImport.update({
+  id: '/pricing',
+  path: '/pricing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiClientsRoute = ApiClientsRouteImport.update({
+  id: '/api/clients',
+  path: '/api/clients',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiInvoicesRoute = ApiInvoicesRouteImport.update({
+  id: '/api/invoices',
+  path: '/api/invoices',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiQuotaRoute = ApiQuotaRouteImport.update({
+  id: '/api/quota',
+  path: '/api/quota',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiStorageRoute = ApiStorageRouteImport.update({
+  id: '/api/storage',
+  path: '/api/storage',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AppIndexRoute = AppIndexRouteImport.update({
@@ -67,26 +87,6 @@ const AppIndexRoute = AppIndexRouteImport.update({
 const AuthCallbackRoute = AuthCallbackRouteImport.update({
   id: '/auth/callback',
   path: '/auth/callback',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiStorageRoute = ApiStorageRouteImport.update({
-  id: '/api/storage',
-  path: '/api/storage',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiQuotaRoute = ApiQuotaRouteImport.update({
-  id: '/api/quota',
-  path: '/api/quota',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiInvoicesRoute = ApiInvoicesRouteImport.update({
-  id: '/api/invoices',
-  path: '/api/invoices',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiClientsRoute = ApiClientsRouteImport.update({
-  id: '/api/clients',
-  path: '/api/clients',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiPaymentsVerifyRoute = ApiPaymentsVerifyRouteImport.update({
@@ -211,39 +211,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/pricing': {
-      id: '/pricing'
-      path: '/pricing'
-      fullPath: '/pricing'
-      preLoaderRoute: typeof PricingRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/payment-success': {
-      id: '/payment-success'
-      path: '/payment-success'
-      fullPath: '/payment-success'
-      preLoaderRoute: typeof PaymentSuccessRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/paiement': {
-      id: '/paiement'
-      path: '/paiement'
-      fullPath: '/paiement'
-      preLoaderRoute: typeof PaiementRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/login': {
-      id: '/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof LoginRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/landing': {
-      id: '/landing'
-      path: '/landing'
-      fullPath: '/landing'
-      preLoaderRoute: typeof LandingRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/app': {
@@ -253,11 +225,67 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/landing': {
+      id: '/landing'
+      path: '/landing'
+      fullPath: '/landing'
+      preLoaderRoute: typeof LandingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/paiement': {
+      id: '/paiement'
+      path: '/paiement'
+      fullPath: '/paiement'
+      preLoaderRoute: typeof PaiementRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/payment-success': {
+      id: '/payment-success'
+      path: '/payment-success'
+      fullPath: '/payment-success'
+      preLoaderRoute: typeof PaymentSuccessRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pricing': {
+      id: '/pricing'
+      path: '/pricing'
+      fullPath: '/pricing'
+      preLoaderRoute: typeof PricingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/clients': {
+      id: '/api/clients'
+      path: '/api/clients'
+      fullPath: '/api/clients'
+      preLoaderRoute: typeof ApiClientsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/invoices': {
+      id: '/api/invoices'
+      path: '/api/invoices'
+      fullPath: '/api/invoices'
+      preLoaderRoute: typeof ApiInvoicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/quota': {
+      id: '/api/quota'
+      path: '/api/quota'
+      fullPath: '/api/quota'
+      preLoaderRoute: typeof ApiQuotaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/storage': {
+      id: '/api/storage'
+      path: '/api/storage'
+      fullPath: '/api/storage'
+      preLoaderRoute: typeof ApiStorageRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/app/': {
@@ -272,34 +300,6 @@ declare module '@tanstack/react-router' {
       path: '/auth/callback'
       fullPath: '/auth/callback'
       preLoaderRoute: typeof AuthCallbackRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/storage': {
-      id: '/api/storage'
-      path: '/api/storage'
-      fullPath: '/api/storage'
-      preLoaderRoute: typeof ApiStorageRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/quota': {
-      id: '/api/quota'
-      path: '/api/quota'
-      fullPath: '/api/quota'
-      preLoaderRoute: typeof ApiQuotaRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/invoices': {
-      id: '/api/invoices'
-      path: '/api/invoices'
-      fullPath: '/api/invoices'
-      preLoaderRoute: typeof ApiInvoicesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/clients': {
-      id: '/api/clients'
-      path: '/api/clients'
-      fullPath: '/api/clients'
-      preLoaderRoute: typeof ApiClientsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/payments/verify': {
@@ -345,6 +345,7 @@ import type { getRouter } from './router.tsx'
 import type { createStart } from '@tanstack/react-start'
 declare module '@tanstack/react-start' {
   interface Register {
+    ssr: true
     router: Awaited<ReturnType<typeof getRouter>>
   }
 }

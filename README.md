@@ -13,4 +13,6 @@ Le forfait Pro coûte **1 000 F CFA par mois**. Le checkout utilise FedaPay; la 
 3. Installer les dépendances avec `npm install`.
 4. Lancer `npm run dev` (Vite écoute sur le port 3004).
 
-Les secrets FedaPay et `DATABASE_URL` restent côté serveur et ne doivent jamais utiliser un préfixe `VITE_`.
+Les clés publiques `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY` et `VITE_FEDAPAY_PUBLIC_KEY` sont configurées dans l’environnement de build. `DATABASE_URL`, `DIRECT_URL` et `FEDAPAY_SECRET_KEY` sont des secrets serveur : ne leur ajoutez jamais le préfixe `VITE_`.
+
+Google et GitHub sont des fournisseurs Supabase Auth. Activez-les dans les paramètres Auth du projet et autorisez les URL de retour `https://<votre-domaine>/auth/callback`. Le tableau de bord FactureFlash se trouve sur `/app`; les connexions OAuth aboutissent à cette route après le callback.

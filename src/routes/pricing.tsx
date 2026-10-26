@@ -74,6 +74,7 @@ function PricingPage() {
         onComplete: (response) => {
           void verifyFedaPayPayment(response)
         },
+        onCancel: () => toast('Paiement annulé. Aucun abonnement n’a été activé.'),
       })
     } catch (error) {
       toast.error(error instanceof Error ? error.message : 'Impossible de démarrer le paiement FedaPay.')
@@ -100,7 +101,7 @@ function PricingPage() {
     }
     setIsPro(true)
     toast.success('Paiement confirmé par FedaPay. Votre plan Pro est actif.')
-    window.location.assign('/paiement')
+    window.location.assign(`/payment-success?transaction_id=${encodeURIComponent(transactionId)}`)
   }
 
   return (

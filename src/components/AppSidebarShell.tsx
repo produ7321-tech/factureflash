@@ -21,9 +21,13 @@ import {
 } from '@/components/ui/tooltip'
 import {
   LayoutDashboard,
+  LogOut,
   PanelLeft,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { useAuth } from '@/contexts/AuthContext'
+import { useNavigate } from '@tanstack/react-router'
+import { toast } from 'sonner'
 
 const SIDEBAR_KEY = 'sidebar_collapsed'
 
@@ -68,6 +72,8 @@ function NavItem({ item, collapsed }: { item: NavItemDef; collapsed: boolean }) 
 }
 
 export function AppSidebarShell() {
+  const { user, signOut } = useAuth()
+  const navigate = useNavigate()
   // SSR always renders expanded; the saved preference is restored after mount.
   // Reading localStorage in the initializer makes the client's first render
   // differ from the server markup → hydration mismatch on hard refresh.
@@ -84,6 +90,15 @@ export function AppSidebarShell() {
       return next
     })
   }, [])
+
+  async function handleSignOut() {
+    try {
+      await signOut()
+      await navigate({ to: '/login', replace: true })
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : 'La déconnexion a échoué.')
+    }
+  }
 
   return (
     <TooltipProvider delayDuration={0}>
@@ -160,23 +175,34 @@ export function AppSidebarShell() {
                   </Avatar>
                 </button>
               </TooltipTrigger>
-              <TooltipContent side="right">Compte professionnel</TooltipContent>
+              <TooltipContent side="right">{user?.email ?? 'Compte professionnel'}</TooltipContent>
             </Tooltip>
           ) : (
-            <button className="flex items-center gap-2 rounded-md hover:bg-accent transition-colors cursor-pointer w-full px-2 py-1.5">
+            <div className="flex items-center gap-2 rounded-md w-full px-2 py-1.5">
               <Avatar className="h-6 w-6 shrink-0">
-                <AvatarFallback className="text-[10px] bg-muted">F</AvatarFallback>
+                <AvatarFallback className="text-[10px] bg-muted">{user?.email?.slice(0, 1).toUpperCase() ?? 'F'}</AvatarFallback>
               </Avatar>
               <div className="flex-1 min-w-0 text-left">
-                <p className="text-xs font-medium leading-tight truncate">Compte professionnel</p>
+                <p className="text-xs font-medium leading-tight truncate">{user?.email ?? 'Compte professionnel'}</p>
                 <p className="text-[10px] text-muted-foreground leading-tight truncate">
-                  FactureFlash 229
+                  Compte professionnel
                 </p>
               </div>
-            </button>
+            </div>
           )}
 
-          {!collapsed && <p className="px-2 py-1 text-[10px] text-muted-foreground">Données enregistrées sur cet appareil</p>}
+          <button
+            type="button"
+            onClick={() => void handleSignOut()}
+            aria-label="Se déconnecter"
+            className={cn(
+              'flex items-center gap-2 rounded-md text-xs text-muted-foreground transition-colors hover:bg-accent hover:text-foreground',
+              collapsed ? 'h-8 w-8 justify-center' : 'w-full px-2 py-2',
+            )}
+          >
+            <LogOut className="size-4 shrink-0" />
+            {!collapsed && 'Se déconnecter'}
+          </button>
         </div>
       </div>
     </TooltipProvider>

@@ -46,9 +46,31 @@ export type FedaPayInput = {
   customerPhone: string
   customerEmail: string
   onComplete: (response: FedaPayResponse) => void
+  onCancel?: (response: FedaPayResponse) => void
+  callbackUrl?: string
 }
 
-export async function payInvoice({ amount, description, customerName, customerPhone, customerEmail, onComplete }: FedaPayInput) {
+export type FedaPayCheckoutInput = {
+  amount: number
+  description: string
+  clientEmail: string
+  clientName: string
+  clientPhone: string
+  onSuccess: (response: FedaPayResponse) => void
+  onCancel?: (response: FedaPayResponse) => void
+  callbackUrl?: string
+}
+
+export async function openFedaPayCheckout({
+  amount,
+  description,
+  clientEmail,
+  clientName,
+  clientPhone,
+  onSuccess,
+  onCancel,
+  callbackUrl,
+}: FedaPayCheckoutInput) {
   if (typeof window === 'undefined') throw new Error('Le paiement doit être lancé depuis votre navigateur.')
   if (!Number.isSafeInteger(amount) || amount <= 0 || amount >= 10_000_000) {
     throw new Error('Le montant doit être compris entre 1 et 9 999 999 FCFA.')
@@ -56,11 +78,11 @@ export async function payInvoice({ amount, description, customerName, customerPh
 
   const publicKey = import.meta.env.VITE_FEDAPAY_PUBLIC_KEY
   if (!publicKey) throw new Error('Le paiement FedaPay n’est pas configuré.')
-  const phone = customerPhone.replace(/[^\d+]/g, '')
+  const phone = clientPhone.replace(/[^\d+]/g, '')
   if (!/^(?:\+?229)?\d{8,10}$/.test(phone)) throw new Error('Saisissez un numéro béninois valide.')
-  const [firstname = 'Client', ...surname] = customerName.trim().split(/\s+/)
+  const [firstname = 'Client', ...surname] = clientName.trim().split(/\s+/)
   if (!firstname) throw new Error('Le nom du client est requis.')
-  const email = customerEmail.trim().toLowerCase()
+  const email = clientEmail.trim().toLowerCase()
   if (!zEmail(email)) throw new Error('Une adresse e-mail valide est requise pour confirmer le paiement.')
 
   await loadCheckoutScript()
@@ -68,14 +90,35 @@ export async function payInvoice({ amount, description, customerName, customerPh
   if (!fedapay) throw new Error('Le service de paiement n’a pas pu être initialisé.')
   fedapay.init({
     public_key: publicKey,
-    transaction: { amount, description: description.slice(0, 120), callback_url: `${window.location.origin}/paiement` },
+    transaction: {
+      amount,
+      description: description.slice(0, 120),
+      callback_url: callbackUrl ?? `${window.location.origin}/payment-success`,
+    },
     customer: {
       firstname,
       lastname: surname.join(' ') || 'Client',
       email,
       phone_number: { number: phone, country: 'bj' },
     },
-    onComplete,
+    onComplete: response => {
+      const completed = response.reason === 'CHECKOUT_COMPLETED' || ['approved', 'transferred'].includes(String(response.status).toLowerCase())
+      if (completed) onSuccess(response)
+      else onCancel?.(response)
+    },
+  })
+}
+
+export async function payInvoice(input: FedaPayInput) {
+  return openFedaPayCheckout({
+    amount: input.amount,
+    description: input.description,
+    clientName: input.customerName,
+    clientPhone: input.customerPhone,
+    clientEmail: input.customerEmail,
+    callbackUrl: input.callbackUrl,
+    onSuccess: input.onComplete,
+    onCancel: input.onCancel,
   })
 }
 

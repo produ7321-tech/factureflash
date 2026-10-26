@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as PricingRouteImport } from './routes/pricing'
+import { Route as PaymentSuccessRouteImport } from './routes/payment-success'
 import { Route as PaiementRouteImport } from './routes/paiement'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as LandingRouteImport } from './routes/landing'
@@ -26,6 +27,11 @@ import { Route as ApiPaymentsVerifyRouteImport } from './routes/api/payments/ver
 const PricingRoute = PricingRouteImport.update({
   id: '/pricing',
   path: '/pricing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PaymentSuccessRoute = PaymentSuccessRouteImport.update({
+  id: '/payment-success',
+  path: '/payment-success',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PaiementRoute = PaiementRouteImport.update({
@@ -95,6 +101,7 @@ export interface FileRoutesByFullPath {
   '/landing': typeof LandingRoute
   '/login': typeof LoginRoute
   '/paiement': typeof PaiementRoute
+  '/payment-success': typeof PaymentSuccessRoute
   '/pricing': typeof PricingRoute
   '/api/clients': typeof ApiClientsRoute
   '/api/invoices': typeof ApiInvoicesRoute
@@ -109,6 +116,7 @@ export interface FileRoutesByTo {
   '/landing': typeof LandingRoute
   '/login': typeof LoginRoute
   '/paiement': typeof PaiementRoute
+  '/payment-success': typeof PaymentSuccessRoute
   '/pricing': typeof PricingRoute
   '/api/clients': typeof ApiClientsRoute
   '/api/invoices': typeof ApiInvoicesRoute
@@ -125,6 +133,7 @@ export interface FileRoutesById {
   '/landing': typeof LandingRoute
   '/login': typeof LoginRoute
   '/paiement': typeof PaiementRoute
+  '/payment-success': typeof PaymentSuccessRoute
   '/pricing': typeof PricingRoute
   '/api/clients': typeof ApiClientsRoute
   '/api/invoices': typeof ApiInvoicesRoute
@@ -142,6 +151,7 @@ export interface FileRouteTypes {
     | '/landing'
     | '/login'
     | '/paiement'
+    | '/payment-success'
     | '/pricing'
     | '/api/clients'
     | '/api/invoices'
@@ -156,6 +166,7 @@ export interface FileRouteTypes {
     | '/landing'
     | '/login'
     | '/paiement'
+    | '/payment-success'
     | '/pricing'
     | '/api/clients'
     | '/api/invoices'
@@ -171,6 +182,7 @@ export interface FileRouteTypes {
     | '/landing'
     | '/login'
     | '/paiement'
+    | '/payment-success'
     | '/pricing'
     | '/api/clients'
     | '/api/invoices'
@@ -187,6 +199,7 @@ export interface RootRouteChildren {
   LandingRoute: typeof LandingRoute
   LoginRoute: typeof LoginRoute
   PaiementRoute: typeof PaiementRoute
+  PaymentSuccessRoute: typeof PaymentSuccessRoute
   PricingRoute: typeof PricingRoute
   ApiClientsRoute: typeof ApiClientsRoute
   ApiInvoicesRoute: typeof ApiInvoicesRoute
@@ -203,6 +216,13 @@ declare module '@tanstack/react-router' {
       path: '/pricing'
       fullPath: '/pricing'
       preLoaderRoute: typeof PricingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/payment-success': {
+      id: '/payment-success'
+      path: '/payment-success'
+      fullPath: '/payment-success'
+      preLoaderRoute: typeof PaymentSuccessRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/paiement': {
@@ -308,6 +328,7 @@ const rootRouteChildren: RootRouteChildren = {
   LandingRoute: LandingRoute,
   LoginRoute: LoginRoute,
   PaiementRoute: PaiementRoute,
+  PaymentSuccessRoute: PaymentSuccessRoute,
   PricingRoute: PricingRoute,
   ApiClientsRoute: ApiClientsRoute,
   ApiInvoicesRoute: ApiInvoicesRoute,

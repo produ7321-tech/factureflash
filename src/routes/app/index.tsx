@@ -547,7 +547,9 @@ function FactureApp() {
         customerName: row.clientName,
         customerPhone: row.clientPhone,
         customerEmail: user.email,
+        callbackUrl: `${window.location.origin}/payment-success?kind=invoice&invoice_id=${encodeURIComponent(row.id)}`,
         onComplete: (response: FedaPayResponse) => { void verifyInvoicePayment(row, response) },
+        onCancel: () => toast('Paiement annulé. La facture reste impayée.'),
       })
     } catch {
       toast.error('Impossible de démarrer le paiement. Vérifiez le téléphone du client et réessayez.')
@@ -583,6 +585,7 @@ function FactureApp() {
     }
     await reloadData(user.id)
     toast.success('Paiement confirmé par FedaPay. La facture est marquée payée.')
+    window.location.assign(`/payment-success?transaction_id=${encodeURIComponent(transactionId)}&kind=invoice&invoice_id=${encodeURIComponent(row.id)}`)
   }
 
   function shareOnWhatsApp(row: DocumentsRow) {
@@ -648,7 +651,7 @@ function DocumentList({ rows, onDownload, onShare, onToggle, onConvert, onPay, w
           <div className="flex items-center justify-between gap-3 sm:justify-end"><strong className="whitespace-nowrap text-sm">{money(row.total)}</strong><div className="flex flex-wrap items-center gap-1">
             <button onClick={() => onDownload(row)} className="flex size-9 items-center justify-center rounded-lg text-muted-foreground transition hover:bg-muted hover:text-primary" aria-label="Télécharger le PDF" title="Télécharger le PDF"><ArrowDownToLine className="size-4" /></button>
             <button onClick={() => onShare(row)} className="flex size-9 items-center justify-center rounded-lg text-muted-foreground transition hover:bg-accent hover:text-accent-foreground" aria-label="Partager sur WhatsApp" title="Partager sur WhatsApp"><MessageCircle className="size-4" /></button>
-            {row.type === 'invoice' && row.status !== 'paid' && <button onClick={() => onPay(row)} className="rounded-lg bg-primary px-2.5 py-2 text-[11px] font-semibold text-primary-foreground">Encaisser · FedaPay</button>}
+            {row.type === 'invoice' && row.status !== 'paid' && <button onClick={() => onPay(row)} className="rounded-lg bg-primary px-2.5 py-2 text-[11px] font-semibold text-primary-foreground">Payer par Mobile Money</button>}
             <button disabled={workingId === row.id} onClick={() => onToggle(row)} className="rounded-lg border border-border px-2.5 py-2 text-[11px] font-semibold transition hover:bg-muted disabled:opacity-50">{row.status === 'paid' ? 'Impayé' : 'Marquer payé'}</button>
             {row.type === 'quote' && <button disabled={workingId === row.id} onClick={() => onConvert(row)} className="flex size-9 items-center justify-center rounded-lg text-primary transition hover:bg-secondary disabled:opacity-50" aria-label="Transformer en facture" title="Transformer en facture"><ArrowRight className="size-4" /></button>}
           </div></div>

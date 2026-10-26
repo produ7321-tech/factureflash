@@ -1,6 +1,8 @@
-import { Outlet, createFileRoute } from '@tanstack/react-router'
+import { Outlet, createFileRoute, useNavigate } from '@tanstack/react-router'
+import { useEffect } from 'react'
 import { SharedAppLayout } from '@/layouts/shared-app-layout'
 import { APP_NAME, SITE_DESCRIPTION, SITE_TITLE } from '@/lib/site'
+import { useAuth } from '@/contexts/AuthContext'
 
 /**
  * App shell layout — mounted at the REAL `/app` segment (not a pathless `_app`).
@@ -38,6 +40,17 @@ export const Route = createFileRoute('/app')({
 })
 
 function AppLayout() {
+  const navigate = useNavigate()
+  const { user, loading } = useAuth()
+
+  useEffect(() => {
+    if (!loading && !user) void navigate({ to: '/login', replace: true })
+  }, [loading, navigate, user])
+
+  if (loading || !user) {
+    return <main className="flex min-h-dvh items-center justify-center"><div className="size-8 animate-spin rounded-full border-2 border-primary/20 border-t-primary" /></main>
+  }
+
   return (
     <SharedAppLayout appName={APP_NAME}>
       <Outlet />
